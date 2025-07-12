@@ -1,23 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>A Monk in Cloud</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    input {
+      color: #E2E8F0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      margin-left: 20px;
+    }
+  </style>
 </head>
 <body>
-	<header>
-		<h1>Greeting App</h1>
-        <div class="counter-number">Views</div>
-	</header>
-	<main>
-		<form>
-			<label for="name">Name:</label>
-			<input type="text" id="name" name="name">
-			<button id="submit-btn">Submit</button>
-		</form>
-		<p id="greeting"></p>
-	</main>
-	<script src="script.js"></script>
+  <form>
+    <label>First Name:</label>
+    <input type="text" id="firstName" />
+    <br><br>
+    <label>Last Name:</label>
+    <input type="text" id="lastName" />
+    <br><br>
+    <button onclick="callAPI()">Submit</button>
+  </form>
+
+  <script>
+    function callAPI() {
+      var firstName = document.getElementById("firstName").value;
+      var lastName = document.getElementById("lastName").value;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({ "firstName": firstName, "lastName": lastName });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("https://0plkcfhn2.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
+        .then(response => response.text())
+        .then(result => alert(JSON.parse(result).body))
+        .catch(error => console.log('error', error));
+    }
+  </script>
 </body>
 </html>
- 
